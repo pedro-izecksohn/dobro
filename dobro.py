@@ -1,6 +1,6 @@
 from os import urandom
 
-allNaipes="0ABCD"
+allNaipes="ABCD"
 
 class Card:
     def __init__(self, naipe, rank):
@@ -22,8 +22,8 @@ class Pack:
     def __init__(self, cards=[]):
         self.cards=cards
         if len(self.cards)==0:
-            n=1
-            while n<5:
+            n=0
+            while n<4:
                 r=1
                 while r<14:
                     self.cards.append(Card(allNaipes[n],r))
