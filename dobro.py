@@ -87,6 +87,12 @@ while currentHand<12:
             currentHandValue*=2
     answer='y'
     computerDesiresHandValue = 2**handGetNOfficials(computerHand)
+    while computerDesiresHandValue<8:
+        if (int(urandom(1)[0])%2):
+            computerDesiresHandValue*=2
+            continue
+        else:
+            break
     while ((answer[0]=='y') or (answer[0]=='Y')) and (currentHandValue<computerDesiresHandValue):
         print ("The current hand value is "+str(currentHandValue)+".")
         answer=input("I want to double. Do you accept to double?\nAnswer y or n: ")
