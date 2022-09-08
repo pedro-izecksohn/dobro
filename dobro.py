@@ -65,28 +65,49 @@ def handGetHighestCard (hand):
         if card.rank>ret.rank:
             ret=card
     return ret
+def handValue (hand):
+    ret=0
+    for card in hand:
+        ret+=card.rank
+    return ret
 currentHand=0
 playerPoints=0
 computerPoints=0
-while currentHand<12:
+totalHands=12
+while currentHand<totalHands:
     print ("This is hand "+str(currentHand)+".")
     print ("I have "+str(computerPoints)+" points.")
     print ("You have "+str(playerPoints)+" points.")
     currentHandValue=1
+    if (computerPoints-playerPoints)>(totalHands-currentHand):
+        print ("I refuse to play this hand. This point is yours.")
+        playerPoints+=1
+        currentHand+=1
+        continue
     pack=Pack()
     pack.randomize()
     computerHand=pack.getHand()
     #print ("My hand is:", handStr(computerHand))
     playerHand=pack.getHand()
     print ("Your hand is:", handStr(playerHand))
+    computerDesiresHandValue = 2**handGetNOfficials(computerHand)
+    computerRefused=False
     answer = 'y'
     while ((answer[0]=='y') or (answer[0]=='Y')) and (currentHandValue<8):
         print ("The current hand value is "+str(currentHandValue)+".")
         answer=input ("Do you want to double? Answer y or n:")
         if (answer[0]=='y') or (answer[0]=='Y'):
+            if (currentHandValue==1) and (handValue(computerHand)<21):
+                if (int(urandom(1)[0])%2):
+                    print ("I refuse. This hand is yours.")
+                    playerPoints+=currentHandValue
+                    computerRefused=True
+                    break
             currentHandValue*=2
+    if computerRefused:
+        currentHand+=1
+        continue
     answer='y'
-    computerDesiresHandValue = 2**handGetNOfficials(computerHand)
     while computerDesiresHandValue<8:
         if (int(urandom(1)[0])%2):
             computerDesiresHandValue*=2
