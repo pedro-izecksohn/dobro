@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 from os import urandom
 
 allNaipes="ABCD"
@@ -12,10 +13,13 @@ class Card:
     def __eq__(self, other):
         return ((self.naipe==other.naipe) and (self.rank==other.rank))
 def cardFromName (name):
-    naipe=name[0]
-    rank = int (name[1])
-    if len(name)>2:
-        rank = (rank*10)+int(name[2])
+    try:
+        naipe=name[0]
+        rank = int (name[1])
+        if len(name)>2:
+            rank = (rank*10)+int(name[2])
+    except:
+        return Card ('0',0)
     ret = Card (naipe, rank)
     return ret
 class Pack:
@@ -96,6 +100,10 @@ while currentHand<totalHands:
     while ((answer[0]=='y') or (answer[0]=='Y')) and (currentHandValue<8):
         print ("The current hand value is "+str(currentHandValue)+".")
         answer=input ("Do you want to double? Answer y or n:")
+        if len(answer)==0:
+            print ("I did not understand your answer.")
+            answer='y'
+            continue
         if (answer[0]=='y') or (answer[0]=='Y'):
             if (currentHandValue==1) and (handValue(computerHand)<21):
                 if (int(urandom(1)[0])%2):
